@@ -1,0 +1,8 @@
+<div role="alert"
+    class="relative p-4 w-full rounded-lg border [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground"
+    [ngClass]="{
+        'bg-background text-foreground': variant === 'default',
+        'border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive': variant === 'destructive'
+      }">
+    <ng-content></ng-content>
+</div>

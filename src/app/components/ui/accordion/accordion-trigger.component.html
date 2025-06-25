@@ -1,0 +1,15 @@
+<button class="flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline" [ngClass]="{'rotate-180': isOpen}" (click)="toggle.emit()">
+  <ng-content></ng-content>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="h-4 w-4 transition-transform duration-200 shrink-0"
+  >
+    <path d="M6 9l6 6 6-6"></path>
+  </svg>
+</button>
