@@ -1,0 +1,9 @@
+<app-button variant="outline" size="icon" class="absolute top-1/2 h-8 w-8 rounded-full -left-12 -translate-y-1/2"
+    (click)="carousel.scrollPrev()" [disabled]="!carousel.canScrollPrev">
+    <!-- Placeholder for icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+        <path d="M15 18l-6-6 6-6" />
+    </svg>
+    <span class="sr-only">Previous slide</span>
+</app-button>

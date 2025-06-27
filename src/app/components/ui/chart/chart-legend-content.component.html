@@ -1,0 +1,19 @@
+<div *ngIf="payload?.length"
+     class="flex items-center justify-center gap-4"
+     [ngClass]="{
+       'pb-3': verticalAlign === 'top',
+       'pt-3': verticalAlign === 'bottom'
+     }">
+  <div *ngFor="let item of payload"
+       class="flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground">
+    <ng-container *ngIf="item?.payload?.icon && !hideIcon; else defaultLegendIcon">
+      <!-- Render icon component here if available in Angular -->
+      <!-- For now, a placeholder -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><circle cx="12" cy="12" r="10"/></svg>
+    </ng-container>
+    <ng-template #defaultLegendIcon>
+      <div class="h-2 w-2 rounded-[2px] shrink-0" [style.backgroundColor]="item.color"></div>
+    </ng-template>
+    <span>{{ nameKey ? item.payload[nameKey] : item.value }}</span>
+  </div>
+</div>

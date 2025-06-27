@@ -1,0 +1,19 @@
+/* angular-inventory-app/src/app/components/ui/input/input.component.scss */
+
+/* You can add component-specific styles here if needed */
+
+/*
+  Note: Most of the base styles from the React component are applied
+  via the @HostBinding in the component's TypeScript file,
+  mimicking the Tailwind CSS classes. If you are using Tailwind
+  in your Angular project, these base styles in the SCSS file might
+  not be necessary, and you would rely on Tailwind's utility classes
+  applied via @HostBinding.
+*/
+
+/* Example: If you wanted to add a specific hover effect not covered by Tailwind */
+/*
+:host input:hover {
+  border-color: blue;
+}
+*/

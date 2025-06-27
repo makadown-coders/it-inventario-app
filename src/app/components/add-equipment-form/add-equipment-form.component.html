@@ -1,0 +1,105 @@
+<!-- angular-inventory-app/src/app/components/add-equipment-form/add-equipment-form.component.html -->
+<app-dialog [open]="isOpen" (openChange)="onOpenChange($event)">
+  <button appDialogTrigger asChild>
+    <app-button>
+      <lucide-icon [img]="plusCircleIcon" class="mr-2 h-4 w-4"></lucide-icon>
+      Agregar Equipo
+    </app-button>
+  </button>
+  <app-dialog-content className="sm:max-w-[480px]">
+    <app-dialog-header>
+      <app-dialog-title className="font-headline">Agregar Nuevo Equipo</app-dialog-title>
+      <app-dialog-description>
+        Complete los detalles para agregar un nuevo equipo al inventario.
+      </app-dialog-description>
+    </app-dialog-header>
+    <form *ngIf="equipmentForm" [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
+      <div class="grid grid-cols-2 gap-4">
+        <app-form-field>
+          <app-form-item>
+            <app-form-label>Tipo de Equipo</app-form-label>
+            <app-select formControlName="type"> <!-- Use formControlName -->
+              <app-select-trigger>
+                <app-select-value placeholder="Seleccione un tipo"></app-select-value>
+              </app-select-trigger>
+              <app-select-content>
+                <app-select-item *ngFor="let type of EQUIPMENT_TYPES" [value]="type">{{ type }}</app-select-item>
+              </app-select-content>
+            </app-select>
+            <app-form-message></app-form-message>
+          </app-form-item>
+        </app-form-field>
+        <app-form-field>
+          <app-form-item>
+            <app-form-label>Modelo</app-form-label>
+            <app-input placeholder="Ej. Dell Latitude 7420" formControlName="model"></app-input> <!-- Use formControlName -->
+            <app-form-message></app-form-message>
+          </app-form-item>
+        </app-form-field>
+      </div>
+      <app-form-field>
+        <app-form-item>
+          <app-form-label>Número de Serie</app-form-label>
+          <app-input placeholder="Ej. SN-A1B2C3D4" formControlName="serialNumber"></app-input> <!-- Use formControlName -->
+          <app-form-message></app-form-message>
+        </app-form-item>
+      </app-form-field>
+      <app-form-field>
+        <app-form-item>
+          <app-form-label>Ubicación</app-form-label>
+          <app-input placeholder="Ej. Hospital Rural No. 51" formControlName="location"></app-input> <!-- Use formControlName -->
+          <app-form-message></app-form-message>
+        </app-form-item>
+      </app-form-field>
+      <div class="grid grid-cols-2 gap-4">
+        <app-form-field>
+          <app-form-item>
+            <app-form-label>Estado</app-form-label>
+            <app-select formControlName="status"> <!-- Use formControlName -->
+              <app-select-trigger>
+                <app-select-value placeholder="Seleccione un estado"></app-select-value>
+              </app-select-trigger>
+              <app-select-content>
+                <app-select-item *ngFor="let status of EQUIPMENT_STATUSES" [value]="status">{{ status }}</app-select-item>
+              </app-select-content>
+            </app-select>
+            <app-form-message></app-form-message>
+          </app-form-item>
+        </app-form-field>
+        <app-form-field className="flex flex-col pt-2">
+          <app-form-item>
+            <app-form-label>Fecha de Compra</app-form-label>
+            <app-popover>
+              <button appPopoverTrigger asChild type="button"> <!-- Use appPopoverTrigger -->
+                <app-button variant="outline" [ngClass]="cn('pl-3 text-left font-normal', !equipmentForm.get('purchaseDate')?.value && 'text-muted-foreground')">
+                  {{ formatDate(equipmentForm.get('purchaseDate')?.value) }}
+                  <lucide-icon [img]="calendarIcon" class="ml-auto h-4 w-4 opacity-50"></lucide-icon>
+                </app-button>
+              </button>
+              <app-popover-content className="w-auto p-0" align="start">
+                <app-calendar
+                  [selectedDate]="equipmentForm.get('purchaseDate')?.value"
+                  (dateSelect)="equipmentForm.get('purchaseDate')?.setValue($event)"
+                  [disabled]="disableDates"
+                  [initialFocus]="true"
+                ></app-calendar>
+              </app-popover-content>
+            </app-popover>
+            <app-form-message></app-form-message>
+          </app-form-item>
+        </app-form-field>
+      </div>
+      <app-form-field>
+        <app-form-item>
+          <app-form-label>Asignado a (Opcional)</app-form-label>
+          <app-input placeholder="Ej. Dr. Martinez" formControlName="assignedTo"></app-input> <!-- Use formControlName -->
+          <app-form-message></app-form-message>
+        </app-form-item>
+      </app-form-field>
+      <app-button type="submit" className="w-full mt-4" [disabled]="isSubmitting">
+        <lucide-icon *ngIf="isSubmitting" [img]="loader2Icon" class="mr-2 h-4 w-4 animate-spin"></lucide-icon>
+        {{ isSubmitting ? "Agregando..." : "Agregar Equipo" }}
+      </app-button>
+    </form>
+  </app-dialog-content>
+</app-dialog>

@@ -1,0 +1,224 @@
+/* angular-inventory-app/src/app/components/inventory-table/inventory-table.component.scss */
+
+/* Basic table styles to mimic the React version */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Add more styles based on the React component's rendered output */
+}
+
+thead {
+  /* Styles for table header */
+}
+
+th {
+  text-align: left;
+  padding: 12px; /* Adjust padding as needed */
+  border-bottom: 1px solid #e2e8f0; /* Example border color */
+  /* Add more styles based on the React component's rendered output */
+}
+
+tbody {
+  /* Styles for table body */
+}
+
+td {
+  padding: 12px; /* Adjust padding as needed */
+  border-bottom: 1px solid #e2e8f0; /* Example border color */
+  /* Add more styles based on the React component's rendered output */
+}
+
+tr:last-child td {
+  border-bottom: none; /* Remove border for the last row */
+}
+
+/* Styles for the "No results" message */
+td[colSpan="7"] {
+  text-align: center;
+  height: 96px; /* Equivalent to h-24 in Tailwind */
+}
+
+/* Apply Tailwind-like classes if not using Tailwind directly */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.sm\:flex-row {
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.sm\:items-center {
+  @media (min-width: 640px) {
+    align-items: center;
+  }
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-4 {
+  gap: 1rem; /* Equivalent to 16px */
+}
+
+.mt-4 {
+  margin-top: 1rem; /* Equivalent to 16px */
+}
+
+.relative {
+  position: relative;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.md\:flex-grow {
+  @media (min-width: 768px) {
+    flex-grow: 1;
+  }
+}
+
+.absolute {
+  position: absolute;
+}
+
+.left-3 {
+  left: 0.75rem; /* Equivalent to 12px */
+}
+
+.top-1\/2 {
+  top: 50%;
+}
+
+.-translate-y-1\/2 {
+  transform: translateY(-50%);
+}
+
+.h-4 {
+  height: 1rem; /* Equivalent to 16px */
+}
+
+.w-4 {
+  width: 1rem; /* Equivalent to 16px */
+}
+
+.text-muted-foreground {
+  color: #64748b; /* Example color */
+}
+
+.pl-9 {
+  padding-left: 2.25rem; /* Equivalent to 36px */
+}
+
+.md\:w-auto {
+  @media (min-width: 768px) {
+    width: auto;
+  }
+}
+
+.font-headline {
+  font-family: 'Your Headline Font', sans-serif; /* Replace with your actual headline font */
+}
+
+.text-2xl {
+  font-size: 1.5rem; /* Equivalent to 24px */
+  line-height: 2rem; /* Equivalent to 32px */
+}
+
+.mt-1 {
+  margin-top: 0.25rem; /* Equivalent to 4px */
+}
+
+.rounded-md {
+  border-radius: 0.375rem; /* Equivalent to 6px */
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e2e8f0; /* Example border color */
+}
+
+.w-\[80px\] {
+  width: 80px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-2 {
+  gap: 0.5rem; /* Equivalent to 8px */
+}
+
+.h-5 {
+  height: 1.25rem; /* Equivalent to 20px */
+}
+
+.w-5 {
+  width: 1.25rem; /* Equivalent to 20px */
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.h-2 {
+  height: 0.5rem; /* Equivalent to 8px */
+}
+
+.w-2 {
+  width: 0.5rem; /* Equivalent to 8px */
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.bg-green-500 {
+  background-color: #22c55e; /* Example color */
+}
+
+.bg-yellow-500 {
+  background-color: #f59e0b; /* Example color */
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6; /* Example color */
+}
+
+.text-destructive {
+  color: #ef4444; /* Example color */
+}
+
+/* MatSnackBar custom class */
+.mat-snack-bar-container.centered-snackbar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 300px;
+}

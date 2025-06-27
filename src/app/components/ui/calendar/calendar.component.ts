@@ -1,36 +1,33 @@
+// angular-inventory-app/src/app/components/ui/calendar/calendar.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
-
-type CalendarMode = 'single' | 'multiple' | 'range';
+// You'll need a datepicker library for Angular, e.g., Angular Material Datepicker
+// or a third-party library like ng-bootstrap or ngx-bootstrap.
+// This is a placeholder template.
 
 @Component({
-    selector: 'app-calendar',
-    standalone: true,
-    imports: [CommonModule, MatDatepickerModule, MatCardModule, MatNativeDateModule],
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.scss']
+  selector: 'app-calendar',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <!-- Placeholder for your calendar/datepicker component -->
+    <div class="calendar-placeholder">
+      Calendar component goes here.
+      Selected Date: {{ selectedDate | date }}
+    </div>
+  `,
+  styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
-    // @Input() selected: Date | Date[] | { from: Date, to: Date } | null = null;
-    @Input() selected: Date | null = null;
-    @Input() mode: CalendarMode = 'single';
-    @Input() initialFocus: boolean = false; // Placeholder for potential library option
-    @Input() numberOfMonths: number = 1; // Placeholder for potential library option
+  @Input() selectedDate: Date | null = null;
+  @Output() dateSelect = new EventEmitter<Date | null>();
+  @Input() disabled: (date: Date) => boolean = (date: Date) => false; // Function to disable dates
+  @Input() initialFocus: boolean = false; // For accessibility/focus management
 
-    @Output() select = new EventEmitter<MatDatepickerInputEvent<Date | null>>();
+  constructor() {}
 
-    onSelect(event: any /*MatDatepickerInputEvent<Date | null>*/): void {
-        this.select.emit(event);
-    }
-
-    dateClass = (date: Date): string | string[] => {
-        if (date.getDate() === 26 && date.getMonth() === 9 && date.getFullYear() === 2023) { // Month is 0-indexed
-            return 'my-custom-date';
-        }
-        return '';
-    }
-
+  // You'll need methods to interact with the datepicker library
+  // onDateChange(date: Date | null): void {
+  //   this.dateSelect.emit(date);
+  // }
 }

@@ -1,0 +1,39 @@
+<div *ngIf="active && payload?.length"
+     class="grid items-start gap-1.5 px-2.5 py-1.5 min-w-[8rem] text-xs bg-background rounded-lg border-border/50 shadow-xl border">
+  <ng-container *ngIf="!hideLabel && payload?.length">
+    <div class="font-medium">{{ labelFormatter ? labelFormatter(label, payload) : (labelKey ? payload[0]?.payload[labelKey] : (label || payload[0]?.dataKey || payload[0]?.name || 'value')) }}</div>
+  </ng-container>
+  <div class="grid gap-1.5">
+    <div *ngFor="let item of payload; let i = index"
+         class="flex flex-wrap items-stretch gap-2 w-full [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground"
+         [ngClass]="{'items-center': indicator === 'dot'}">
+      <ng-container *ngIf="formatter && item?.value !== undefined && item.name; else defaultTooltipContent">
+        {{ formatter(item.value, item.name, item, i, item.payload) }}
+      </ng-container>
+      <ng-template #defaultTooltipContent>
+        <ng-container *ngIf="!hideIndicator">
+          <div class="bg-[--color-bg] rounded-[2px] border-[--color-border] shrink-0"
+               [ngClass]="{
+                 'h-2.5 w-2.5': indicator === 'dot',
+                 'w-1': indicator === 'line',
+                 'w-0 border-[1.5px] border-dashed bg-transparent': indicator === 'dashed',
+                 'my-0.5': (payload?.length === 1 && indicator !== 'dot') && indicator === 'dashed'
+               }"
+               [style.--color-bg]="color || item.payload?.fill || item.color"
+               [style.--color-border]="color || item.payload?.fill || item.color">
+          </div>
+        </ng-container>
+        <div class="flex flex-1 justify-between leading-none"
+             [ngClass]="{'items-end': payload?.length === 1 && indicator !== 'dot', 'items-center': !((payload?.length === 1 && indicator !== 'dot'))}">
+          <div class="grid gap-1.5">
+             <ng-container *ngIf="payload?.length === 1 && indicator !== 'dot'"> 
+                <div class="font-medium">{{ labelFormatter ? labelFormatter(label, payload) : (labelKey ? payload[0]?.payload[labelKey] : (label || payload[0]?.dataKey || payload[0]?.name || 'value')) }}</div>
+             </ng-container>
+            <span class="text-muted-foreground">{{ nameKey ? item.payload[nameKey] : (item.name || item.dataKey || 'value') }}</span>
+          </div>
+          <span class="font-mono font-medium text-foreground tabular-nums">{{ item.value | number }}</span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,5 +9,13 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'imssb-bc-inventario';
+   constructor(private titleService: Title, private metaService: Meta) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('IMSSBienestar Baja California - Inventario de IT');
+    this.metaService.addTag({
+      name: 'description',
+      content: 'Admistración de inventario IMSSBienestar Baja California.',
+    });
+  }
 }

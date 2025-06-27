@@ -1,0 +1,17 @@
+<div
+  class="inline-flex items-center justify-center rounded-sm border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 peer shrink-0 border ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+  [ngClass]="{
+    'bg-primary text-primary-foreground': checked,
+    'bg-background text-foreground': !checked
+  }"
+>
+  <input
+    type="checkbox"
+    [checked]="checked"
+    (change)="onCheckboxChange($event)"
+    (blur)="onTouched()"
+    class="absolute h-4 w-4 opacity-0 cursor-pointer"
+  />
+  <svg *ngIf="checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</div>
+
