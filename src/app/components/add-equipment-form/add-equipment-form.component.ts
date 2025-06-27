@@ -1,44 +1,11 @@
 // angular-inventory-app/src/app/components/add-equipment-form/add-equipment-form.component.ts
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'; // Import ReactiveFormsModule
 import { format } from 'date-fns'; // Assuming date-fns is installed and used
 import { PlusCircleIcon, Loader2Icon, CalendarIcon } from 'lucide-angular'; // Import icons
 import { LucideAngularModule } from 'lucide-angular'; // Import IconDirective
 import { v4 as uuidv4 } from 'uuid'; // Assuming uuid library is installed for ID generation
-
-// Import your UI components
-import { ButtonComponent } from '../ui/button';
-import {
-  DialogComponent,
-  DialogTriggerDirective,
-  DialogContentComponent,
-  DialogHeaderComponent,
-  DialogTitleComponent,
-  DialogDescriptionComponent,
-} from '../ui/dialog';
-import {
-  FormFieldComponent,
-  FormItemComponent,
-  FormLabelComponent,
-  FormControlDirective, // Your custom directive
-  FormMessageComponent,
-} from '../ui/form';
-import { InputComponent } from '../ui/input';
-import {
-  PopoverComponent,
-  PopoverTriggerDirective,
-  PopoverContentComponent,
-} from '../ui/popover';
-import {
-  SelectComponent,
-  SelectTriggerComponent,
-  SelectValueComponent,
-  SelectContentComponent,
-  SelectItemComponent,
-} from '../ui/select';
-import { CalendarComponent } from '../ui/calendar'; // Your Calendar component
-
 import { Equipment, EQUIPMENT_STATUSES, EQUIPMENT_TYPES } from '../../shared/models/equipment.model'; // Adjust path as needed
 import { ToastService } from '../../shared/services/toast.service';
 
@@ -47,41 +14,19 @@ import { ToastService } from '../../shared/services/toast.service';
 @Component({
   selector: 'app-add-equipment-form',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    ReactiveFormsModule, // Add ReactiveFormsModule here
-    ButtonComponent,
-    DialogComponent,
-    DialogTriggerDirective,
-    DialogContentComponent,
-    DialogHeaderComponent,
-    DialogTitleComponent,
-    DialogDescriptionComponent,
-    FormFieldComponent,
-    FormItemComponent,
-    FormLabelComponent,
-  //  FormControlDirective, // Use your custom directive
-    FormMessageComponent,
-    InputComponent,
-    PopoverComponent,
-    PopoverTriggerDirective,
-    PopoverContentComponent,
-    SelectComponent,
-    SelectTriggerComponent,
-    SelectValueComponent,
-    SelectContentComponent,
-    SelectItemComponent,
-    CalendarComponent,
-    LucideAngularModule // Add IconDirective here
+    CommonModule, FormsModule, ReactiveFormsModule, LucideAngularModule
   ],
   templateUrl: './add-equipment-form.component.html',
- // styleUrls: ['./add-equipment-form.component.scss'],
+  // styleUrls: ['./add-equipment-form.component.scss'],
 })
 export class AddEquipmentFormComponent implements OnInit {
   @Output() equipmentAdded = new EventEmitter<Equipment>();
   plusCircleIcon = PlusCircleIcon;
   loader2Icon = Loader2Icon;
   calendarIcon = CalendarIcon;
+  cdRef = inject(ChangeDetectorRef);
 
   equipmentForm!: FormGroup; // Use FormGroup for the form
   isOpen: boolean = false;
@@ -93,7 +38,7 @@ export class AddEquipmentFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder, // Inject FormBuilder
     private toastService: ToastService // Inject ToastService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm(); // Initialize the form
@@ -118,11 +63,12 @@ export class AddEquipmentFormComponent implements OnInit {
       this.equipmentForm.reset({ // Reset form when dialog closes
         model: '', serialNumber: '', location: '', assignedTo: ''
       });
-       // Reset specific controls that don't have empty string as default
-       this.equipmentForm.get('type')?.reset(null);
-       this.equipmentForm.get('status')?.reset(null);
-       this.equipmentForm.get('purchaseDate')?.reset(null);
+      // Reset specific controls that don't have empty string as default
+      this.equipmentForm.get('type')?.reset(null);
+      this.equipmentForm.get('status')?.reset(null);
+      this.equipmentForm.get('purchaseDate')?.reset(null);
     }
+    this.cdRef.detectChanges();
   }
 
   async onSubmit(): Promise<void> {
@@ -156,7 +102,7 @@ export class AddEquipmentFormComponent implements OnInit {
     } else {
       // Mark all fields as touched to display validation errors
       this.equipmentForm.markAllAsTouched();
-       this.toastService.show({ // Use the ToastService
+      this.toastService.show({ // Use the ToastService
         title: "Error de Validación",
         description: "Por favor, complete los campos requeridos.",
         type: 'error' // Assuming your ToastService supports types
@@ -184,9 +130,12 @@ export class AddEquipmentFormComponent implements OnInit {
     return compareDate > today || compareDate < minDate;
   };
 
-  // Helper function for ngClass (equivalent to cn from the React code)
-  cn(...inputs: (string | boolean | undefined | null)[]): string {
-    return inputs.filter(Boolean).join(' ');
+  setTodayAsPurchaseDate(): void {
+    const today = new Date();
+    this.equipmentForm.get('purchaseDate')?.setValue(today);
   }
 
+  abrirModal() {
+    this.isOpen = true;
+  }
 }

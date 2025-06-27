@@ -2,32 +2,20 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs'; // Import Observable
-
 // Import Angular Material modules for MatSnackBar
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import the module
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Equipment, EquipmentStatus, EquipmentType, EQUIPMENT_STATUSES, EQUIPMENT_TYPES } from '../../shared/models/equipment.model'; // Adjust path as needed
-import { InventoryService } from '../../shared/services/inventory.service'; // Import the service
-import { CardComponent, CardHeaderComponent, CardTitleComponent, CardContentComponent } from '../ui/card'; // Assuming card components are in ui
+import { InventoryService } from '../../shared/services/inventory.service';
 import { BadgeComponent } from '../ui/badge'; // Assuming badge component is in ui
-import { ButtonComponent } from '../ui/button'; // Assuming button component is in ui
-import { DropdownMenuComponent,
-  DropdownMenuTriggerDirective,
-  DropdownMenuContentComponent,
-  DropdownMenuLabelComponent,
-  DropdownMenuSeparatorComponent,
-  DropdownMenuItemComponent,
-  DropdownMenuSubComponent,
-  DropdownMenuSubTriggerComponent,
-  DropdownMenuSubContentComponent,
-  DropdownMenuPortalDirective 
-} from '../ui/dropdown-menu'; // Assuming dropdown components are in ui
-import { Search, MoreHorizontal, Circle, Wrench, Archive, Laptop, Monitor, Printer, Projector, LaptopIcon, MonitorIcon, PrinterIcon, ProjectorIcon, SearchIcon, MoreHorizontalIcon } from 'lucide-angular'; // Import icons
-import { LucideAngularModule } from 'lucide-angular'; // Import IconDirective
-import { AddEquipmentFormComponent } from '../add-equipment-form/add-equipment-form.component'; // Assuming this component exists
-import { InputComponent } from '../ui/input';
-import { SelectComponent, SelectContentComponent, SelectItemComponent, SelectTriggerComponent, SelectValueComponent } from '../ui/select';
+import { Circle, 
+         Wrench, Archive, 
+         LaptopIcon, MonitorIcon, 
+         PrinterIcon, ProjectorIcon, 
+         SearchIcon, MoreHorizontalIcon } from 'lucide-angular'; // Import icons
+import { LucideAngularModule } from 'lucide-angular';
+import { FormsModule } from '@angular/forms';
+import { AddEquipmentFormComponent } from '../add-equipment-form/add-equipment-form.component';
 
 interface StatusConfig {
   icon: any; // Use 'any' for now, or a specific type if lucide-angular provides one
@@ -36,49 +24,28 @@ interface StatusConfig {
 }
 
 const statusConfig: Record<EquipmentStatus, StatusConfig> = {
-  "In Use": { icon: Circle, color: "bg-green-500", label: "En Uso" },
-  "In Repair": { icon: Wrench, color: "bg-yellow-500", label: "En Reparación" },
-  "In Storage": { icon: Archive, color: "bg-blue-500", label: "En Resguardo" },
+  "En Uso": { icon: Circle, color: "bg-green-500", label: "En Uso" },
+  "En Reparación": { icon: Wrench, color: "bg-yellow-500", label: "En Reparación" },
+  "En Resguardo": { icon: Archive, color: "bg-blue-500", label: "En Resguardo" },
 };
 
 const iconMap: Record<EquipmentType, any> = { // Use 'any' for now
   Laptop: LaptopIcon,
   Desktop: MonitorIcon,
-  Printer: PrinterIcon,
-  Projector: ProjectorIcon,
+  Impresora: PrinterIcon,
+  Proyector: ProjectorIcon,
 };
-
 
 @Component({
   selector: 'app-inventory-table',
   standalone: true,
   imports: [
     CommonModule,
-    MatSnackBarModule, // Add MatSnackBarModule here
-    CardComponent,
-    CardHeaderComponent,
-    CardTitleComponent,
-    CardContentComponent,
-    InputComponent,
-    SelectComponent,
-    SelectTriggerComponent,
-    SelectValueComponent,
-    SelectContentComponent,
-    SelectItemComponent,
+    FormsModule,
+    MatSnackBarModule, // MatSnackBarModule para usar MatSnackBar   
     BadgeComponent,
-    ButtonComponent,
-    DropdownMenuComponent,
-    DropdownMenuTriggerDirective,
-    DropdownMenuContentComponent,
-    DropdownMenuLabelComponent,
-    DropdownMenuSeparatorComponent,
-    DropdownMenuItemComponent,
-    DropdownMenuSubComponent,
-    DropdownMenuSubTriggerComponent,
-    DropdownMenuSubContentComponent,
-   // DropdownMenuPortalDirective,
-    LucideAngularModule, // Add IconDirective here
-    AddEquipmentFormComponent // Import and add the component
+    LucideAngularModule, // para los iconos
+    AddEquipmentFormComponent,
   ],
   templateUrl: './inventory-table.component.html',
   styleUrls: ['./inventory-table.component.scss'],
@@ -87,6 +54,7 @@ export class InventoryTableComponent implements OnInit {
   // @Input() initialInventory: Equipment[] = []; // No longer needed as service manages state
 
   filteredInventory$: Observable<Equipment[]>; // Use the observable from the service
+  selectedItemId: string | null = null;
 
   EQUIPMENT_TYPES = EQUIPMENT_TYPES; // Expose constants to template
   EQUIPMENT_STATUSES = EQUIPMENT_STATUSES; // Expose constants to template

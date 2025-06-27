@@ -1,3 +1,4 @@
+// src/app/pages/home/home.component.ts
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -13,15 +14,8 @@ import { Equipment } from '../../shared/models/equipment.model';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements AfterViewInit {
-  cdRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  inventoryData: Equipment[] = [];
+export class HomeComponent {  
 
   constructor() { }
-
-  ngAfterViewInit(): void {
-    this.inventoryData = mockInventory;
-    this.cdRef.detectChanges();
-  }
 
 }

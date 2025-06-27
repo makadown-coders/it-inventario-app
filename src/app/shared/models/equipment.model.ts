@@ -11,14 +11,10 @@ export interface Equipment {
   purchaseDate: string; // Consider using Date type if you'll work with dates
 }
 
-// Define the possible equipment types using a union type
-export type EquipmentType = 'Laptop' | 'Desktop' | 'Printer' | 'Projector';
+export type EquipmentType = 'Laptop' | 'Desktop' | 'Impresora' | 'Proyector';
 
-// Define a constant array for the equipment types
-export const EQUIPMENT_TYPES = ['Laptop', 'Desktop', 'Printer', 'Projector'] as const;
+export const EQUIPMENT_TYPES = ['Laptop', 'Desktop', 'Impresora', 'Proyector'] as const;
 
-// Define the possible equipment statuses using a union type
-export type EquipmentStatus = 'In Use' | 'In Repair' | 'In Storage';
+export type EquipmentStatus = 'En Uso' | 'En Reparación' | 'En Resguardo';
 
-// Define a constant array for the equipment statuses
-export const EQUIPMENT_STATUSES = ['In Use', 'In Repair', 'In Storage'] as const;
+export const EQUIPMENT_STATUSES = ['En Uso', 'En Reparación', 'En Resguardo'] as const;

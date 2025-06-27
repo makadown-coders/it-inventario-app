@@ -1,105 +1,107 @@
-<!-- angular-inventory-app/src/app/components/add-equipment-form/add-equipment-form.component.html -->
-<app-dialog [open]="isOpen" (openChange)="onOpenChange($event)">
-  <button appDialogTrigger asChild>
-    <app-button>
-      <lucide-icon [img]="plusCircleIcon" class="mr-2 h-4 w-4"></lucide-icon>
-      Agregar Equipo
-    </app-button>
-  </button>
-  <app-dialog-content className="sm:max-w-[480px]">
-    <app-dialog-header>
-      <app-dialog-title className="font-headline">Agregar Nuevo Equipo</app-dialog-title>
-      <app-dialog-description>
-        Complete los detalles para agregar un nuevo equipo al inventario.
-      </app-dialog-description>
-    </app-dialog-header>
-    <form *ngIf="equipmentForm" [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
-      <div class="grid grid-cols-2 gap-4">
-        <app-form-field>
-          <app-form-item>
-            <app-form-label>Tipo de Equipo</app-form-label>
-            <app-select formControlName="type"> <!-- Use formControlName -->
-              <app-select-trigger>
-                <app-select-value placeholder="Seleccione un tipo"></app-select-value>
-              </app-select-trigger>
-              <app-select-content>
-                <app-select-item *ngFor="let type of EQUIPMENT_TYPES" [value]="type">{{ type }}</app-select-item>
-              </app-select-content>
-            </app-select>
-            <app-form-message></app-form-message>
-          </app-form-item>
-        </app-form-field>
-        <app-form-field>
-          <app-form-item>
-            <app-form-label>Modelo</app-form-label>
-            <app-input placeholder="Ej. Dell Latitude 7420" formControlName="model"></app-input> <!-- Use formControlName -->
-            <app-form-message></app-form-message>
-          </app-form-item>
-        </app-form-field>
+<!-- Botón para abrir el formulario -->
+<button 
+  (click)="abrirModal()"
+  class="inline-flex items-center justify-center gap-2 px-4 py-2 h-10 whitespace-nowrap text-sm font-medium text-primary-foreground bg-primary rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-primary/90">
+  <lucide-icon [img]="plusCircleIcon" class="h-4 w-4"></lucide-icon>
+  Agregar Equipo
+</button>
+
+<!-- Modal/Dialog -->
+<div *ngIf="isOpen" class="z-50 fixed left-[50%] top-[50%] grid gap-4 p-6 w-full max-w-lg bg-background rounded-lg shadow-lg duration-200 translate-x-[-50%] translate-y-[-50%] border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:max-w-[480px]">
+  <div class="relative p-6 w-full max-w-lg bg-white rounded-xl shadow-xl">
+    <!-- Cierre -->
+    <button
+      (click)="onOpenChange(false)"
+      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+      ✕
+    </button>
+
+    <!-- Título -->
+    <h2 class="mb-4 text-lg font-semibold text-imss-verde">Agregar Nuevo Equipo</h2>
+
+    <!-- Formulario -->
+    <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="space-y-4">
+
+      <!-- Tipo -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tipo de Equipo*</label>
+        <select formControlName="type"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border"
+          [ngClass]="{'border-red-500': equipmentForm.get('type')?.invalid && equipmentForm.get('type')?.touched}">
+          <option [ngValue]="null" disabled>Seleccione tipo</option>
+          <option *ngFor="let type of EQUIPMENT_TYPES" [value]="type">{{ type }}</option>
+        </select>
       </div>
-      <app-form-field>
-        <app-form-item>
-          <app-form-label>Número de Serie</app-form-label>
-          <app-input placeholder="Ej. SN-A1B2C3D4" formControlName="serialNumber"></app-input> <!-- Use formControlName -->
-          <app-form-message></app-form-message>
-        </app-form-item>
-      </app-form-field>
-      <app-form-field>
-        <app-form-item>
-          <app-form-label>Ubicación</app-form-label>
-          <app-input placeholder="Ej. Hospital Rural No. 51" formControlName="location"></app-input> <!-- Use formControlName -->
-          <app-form-message></app-form-message>
-        </app-form-item>
-      </app-form-field>
-      <div class="grid grid-cols-2 gap-4">
-        <app-form-field>
-          <app-form-item>
-            <app-form-label>Estado</app-form-label>
-            <app-select formControlName="status"> <!-- Use formControlName -->
-              <app-select-trigger>
-                <app-select-value placeholder="Seleccione un estado"></app-select-value>
-              </app-select-trigger>
-              <app-select-content>
-                <app-select-item *ngFor="let status of EQUIPMENT_STATUSES" [value]="status">{{ status }}</app-select-item>
-              </app-select-content>
-            </app-select>
-            <app-form-message></app-form-message>
-          </app-form-item>
-        </app-form-field>
-        <app-form-field className="flex flex-col pt-2">
-          <app-form-item>
-            <app-form-label>Fecha de Compra</app-form-label>
-            <app-popover>
-              <button appPopoverTrigger asChild type="button"> <!-- Use appPopoverTrigger -->
-                <app-button variant="outline" [ngClass]="cn('pl-3 text-left font-normal', !equipmentForm.get('purchaseDate')?.value && 'text-muted-foreground')">
-                  {{ formatDate(equipmentForm.get('purchaseDate')?.value) }}
-                  <lucide-icon [img]="calendarIcon" class="ml-auto h-4 w-4 opacity-50"></lucide-icon>
-                </app-button>
-              </button>
-              <app-popover-content className="w-auto p-0" align="start">
-                <app-calendar
-                  [selectedDate]="equipmentForm.get('purchaseDate')?.value"
-                  (dateSelect)="equipmentForm.get('purchaseDate')?.setValue($event)"
-                  [disabled]="disableDates"
-                  [initialFocus]="true"
-                ></app-calendar>
-              </app-popover-content>
-            </app-popover>
-            <app-form-message></app-form-message>
-          </app-form-item>
-        </app-form-field>
+
+      <!-- Modelo -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Modelo*</label>
+        <input type="text" formControlName="model"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border"
+          [ngClass]="{'border-red-500': equipmentForm.get('model')?.invalid && equipmentForm.get('model')?.touched}">
       </div>
-      <app-form-field>
-        <app-form-item>
-          <app-form-label>Asignado a (Opcional)</app-form-label>
-          <app-input placeholder="Ej. Dr. Martinez" formControlName="assignedTo"></app-input> <!-- Use formControlName -->
-          <app-form-message></app-form-message>
-        </app-form-item>
-      </app-form-field>
-      <app-button type="submit" className="w-full mt-4" [disabled]="isSubmitting">
-        <lucide-icon *ngIf="isSubmitting" [img]="loader2Icon" class="mr-2 h-4 w-4 animate-spin"></lucide-icon>
-        {{ isSubmitting ? "Agregando..." : "Agregar Equipo" }}
-      </app-button>
+
+      <!-- No. Serie -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Número de Serie*</label>
+        <input type="text" formControlName="serialNumber"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border"
+          [ngClass]="{'border-red-500': equipmentForm.get('serialNumber')?.invalid && equipmentForm.get('serialNumber')?.touched}">
+      </div>
+
+      <!-- Ubicación -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Ubicación*</label>
+        <input type="text" formControlName="location"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border"
+          [ngClass]="{'border-red-500': equipmentForm.get('location')?.invalid && equipmentForm.get('location')?.touched}">
+      </div>
+
+      <!-- Asignado a -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Asignado a</label>
+        <input type="text" formControlName="assignedTo"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border">
+      </div>
+
+      <!-- Estado -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Estado*</label>
+        <select formControlName="status"
+          class="mt-1 px-3 py-2 w-full text-sm rounded-md border-gray-300 border"
+          [ngClass]="{'border-red-500': equipmentForm.get('status')?.invalid && equipmentForm.get('status')?.touched}">
+          <option [ngValue]="null" disabled>Seleccione estado</option>
+          <option *ngFor="let status of EQUIPMENT_STATUSES" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+
+      <!-- Fecha de Compra -->
+      <div>
+        <label class="block mb-1 text-sm font-medium text-gray-700">Fecha de Compra*</label>
+        <button type="button"
+          class="flex items-center justify-between px-3 py-2 w-full text-sm border-gray-300 rounded-md border"
+          (click)="setTodayAsPurchaseDate()">
+          <span>
+            {{ formatDate(equipmentForm.get('purchaseDate')?.value) }}
+          </span>
+          <lucide-icon [img]="calendarIcon" class="h-4 w-4 text-muted-foreground"></lucide-icon>
+        </button>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-2 mt-6">
+        <button type="button"
+          (click)="onOpenChange(false)"
+          class="px-4 py-2 text-sm text-gray-600 border-gray-300 rounded-md border hover:bg-gray-100">
+          Cancelar
+        </button>
+        <button type="submit"
+          [disabled]="isSubmitting"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-imss-verde rounded-md hover:bg-imss-verdeClaro disabled:opacity-60">
+          <lucide-icon *ngIf="isSubmitting" [img]="loader2Icon" class="h-4 w-4 animate-spin"></lucide-icon>
+          <span>{{ isSubmitting ? 'Agregando...' : 'Guardar' }}</span>
+        </button>
+      </div>
     </form>
-  </app-dialog-content>
-</app-dialog>
+  </div>
+</div>

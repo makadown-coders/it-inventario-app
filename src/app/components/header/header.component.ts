@@ -1,3 +1,4 @@
+// src/app/components/header/header.component.ts
 import { Component } from '@angular/core';
 import { LucideAngularModule, HospitalIcon } from 'lucide-angular';
 
