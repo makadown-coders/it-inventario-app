@@ -1,3 +1,7 @@
+<!-- Overlay oscuro detrás del modal -->
+<div *ngIf="isOpen" class="z-40 fixed inset-0 bg-black/40 pointer-events-auto backdrop-blur-sm"></div>
+
+
 <!-- Botón para abrir el formulario -->
 <button 
   (click)="abrirModal()"
@@ -5,6 +9,8 @@
   <lucide-icon [img]="plusCircleIcon" class="h-4 w-4"></lucide-icon>
   Agregar Equipo
 </button>
+
+
 
 <!-- Modal/Dialog -->
 <div *ngIf="isOpen" class="z-50 fixed left-[50%] top-[50%] grid gap-4 p-6 w-full max-w-lg bg-background rounded-lg shadow-lg duration-200 translate-x-[-50%] translate-y-[-50%] border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:max-w-[480px]">
